@@ -1,13 +1,15 @@
 package gobaresip
 
 /*
-#cgo linux LDFLAGS: ${SRCDIR}/libbaresip/baresip/libbaresip.a
-#cgo linux LDFLAGS: ${SRCDIR}/libbaresip/re/libre.a
-#cgo linux LDFLAGS: ${SRCDIR}/libbaresip/rem/librem.a
-#cgo linux LDFLAGS: ${SRCDIR}/libbaresip/opus/libopus.a
-#cgo linux LDFLAGS: ${SRCDIR}/libbaresip/openssl/libssl.a
-#cgo linux LDFLAGS: ${SRCDIR}/libbaresip/openssl/libcrypto.a
-#cgo linux LDFLAGS: -ldl -lm -lasound
+#cgo LDFLAGS: ${SRCDIR}/libbaresip/baresip/libbaresip.a
+#cgo LDFLAGS: ${SRCDIR}/libbaresip/re/libre.a
+#cgo LDFLAGS: ${SRCDIR}/libbaresip/rem/librem.a
+#cgo LDFLAGS: ${SRCDIR}/libbaresip/opus/libopus.a
+#cgo LDFLAGS: ${SRCDIR}/libbaresip/openssl/libssl.a
+#cgo LDFLAGS: ${SRCDIR}/libbaresip/openssl/libcrypto.a
+#cgo LDFLAGS: ${SRCDIR}/libbaresip/openssl/libcrypto.a
+#cgo LDFLAGS: -ldl -lm
+
 
 #include <stdint.h>
 #include <stdlib.h>

@@ -13,27 +13,17 @@ mkdir -p opus
 mkdir -p openssl
 
 my_base_modules="account contact cons ctrl_tcp debug_cmd echo httpd menu mwi netroam natpmp presence ice stun turn serreg uuid stdio"
-my_audio_modules="alsa aubridge aufile ausine auresamp mixminus"
+my_audio_modules="aubridge aufile ausine auresamp mixminus"
 my_codec_modules="g711 g722 opus"
 my_tls_modules="dtls_srtp srtp"
 
 opus="1.3.1"
 openssl="3.0.5"
 
-sl_extra_cflags="-I ../my_include "
-sl_extra_lflags="-L ../opus -L ../opus/libopus.a -L ../openssl ../openssl/libssl.a ../openssl/libcrypto.a "
+sl_extra_cflags="-I ../my_include -I ../openssl-${openssl}/include"
+sl_extra_lflags="-L ../opus -L ../opus/libopus.a -L ../openssl-${openssl}/lib -L ../openssl ../openssl/libssl.a ../openssl/libcrypto.a "
 
 cd git
-
-if [ ! -d "re" ]; then
-    git clone https://github.com/baresip/re.git
-fi
-cd re; make clean; make -j16 USE_ZLIB= RELEASE=1 libre.a; cp libre.a ../../re; cd ..
-
-if [ ! -d "rem" ]; then
-    git clone https://github.com/baresip/rem.git
-fi
-cd rem; make clean; make -j16 USE_ZLIB= RELEASE=1 librem.a; cp librem.a ../../rem; cd ..
 
 if [ ! -d "openssl-${openssl}" ]; then
     wget https://www.openssl.org/source/openssl-${openssl}.tar.gz
@@ -44,6 +34,21 @@ mkdir -p openssl
 mkdir -p my_include/openssl
 cp openssl-${openssl}/*.a ../openssl; cp openssl-${openssl}/*.a openssl
 cp openssl-${openssl}/include/openssl/*.h my_include/openssl
+
+if [ ! -d "re" ]; then
+    git clone https://github.com/baresip/re.git
+fi
+cd re; make clean; make -j16 USE_ZLIB= RELEASE=1 libre.a; cp libre.a ../../re; \
+EXTRA_CFLAGS="$sl_extra_cflags" \
+    EXTRA_LFLAGS="$sl_extra_lflags" cd ..
+
+
+if [ ! -d "rem" ]; then
+    git clone https://github.com/baresip/rem.git
+fi
+cd rem; make clean; make -j16 USE_ZLIB= RELEASE=1 librem.a; cp librem.a ../../rem; cd ..
+
+
 
 if [ ! -d "opus-${opus}" ]; then
     wget "https://archive.mozilla.org/pub/opus/opus-${opus}.tar.gz"
